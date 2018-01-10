@@ -15,12 +15,14 @@ FLAGS = -Wall -Wextra -Werror
 
 LIBFT = ./libft/libft.a
 LIBFT_INC = -I./libft/inc
+LIBFT_DEP = $(wildcard ./libft/inc/*.h)
 LIBFT_SRC = $(wildcard ./libft/src/*.c)
-LIBFT_BIN = $(patsubst ./libft/src/*.c %.o, $(LIBFT_SRC))
+LIBFT_BIN = $(patsubst ./libft/src/*.c ./libft/obj/%.o, $(LIBFT_SRC))
 BISTRO = ./bistromatic
 BISTRO_INC = -I./libft/inc -I./bistro/inc
+BISTRO_DEP = $(wilcard ./libft/inc/*.h) $(wilcard ./bistro/inc/*.h)
 BISTRO_SRC = $(wildcard ./bistro/src/*.c)
-BISTRO_BIN = $(patsubst ./bistro/src/*.c %.o, $(BISTRO_SRC))
+BISTRO_BIN = $(patsubst ./bistro/src/*.c ./bistro/obj/%.o, $(BISTRO_SRC))
 
 .PHONY: re all clean fclean
 
@@ -32,11 +34,11 @@ $(BISTRO): $(LIBFT) $(BISTRO_BIN)
 $(LIBFT): $(LIBFT_BIN)
 	$(CC) $(FLAGS) $(LIBFT_BIN) -o $(LIBFT)
 
-bistro/src/%.o : bistro/src/%.c bistro/inc/bistro.h
-	$(CC) $(BISTRO_INC) $(FLAGS) -c $<
+bistro/src/%.o : bistro/src/%.c $(BISTRO_DEP)
+	$(CC) $(BISTRO_INC) $(FLAGS) -c $< -o $@
 
-libft/src/%.o : libft/src/%.c libft/inc/libft.h
-	$(CC) $(LIBFT_INC) $(FLAGS) -c $<
+libft/src/%.o : libft/src/%.c $(LIBFT_DEP)
+	$(CC) $(LIBFT_INC) $(FLAGS) -c $< -o $@
 
 clean:
 	make clean -C ./libft
