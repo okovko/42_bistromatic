@@ -259,7 +259,29 @@ t_countable_nbr				*countable_nbr_div
 		free_countable_nbr(&product);
 		product = countable_nbr_mul(nbr, rhs);
 	}
+	free_countable_nbr(&product);
 	return (countable_nbr_dec(nbr));
+}
+
+t_countable_nbr				*countable_nbr_mod
+							(t_countable_nbr *lhs, t_countable_nbr *rhs)
+{
+	t_countable_nbr			*nbr;
+	t_countable_nbr			*product;
+	t_countable_nbr			*sub;
+
+	nbr = new_countable_nbr(lhs->base, 1, lhs->size);
+	product = countable_nbr_mul(nbr, rhs);
+	while (1 == countable_nbr_lte(product, lhs))
+	{
+		countable_nbr_inc(nbr);
+		free_countable_nbr(&product);
+		product = countable_nbr_mul(nbr, rhs);
+	}
+	sub = countable_nbr_sub(lhs, product);
+	free_countable_nbr(&nbr);
+	free_countable_nbr(&product);
+	return (sub);
 }
 
 int							main(int ac, char **av)
