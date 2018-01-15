@@ -15,6 +15,8 @@
 
 #include "ft_countable_nbr.h"
 
+#define ISSPACE(c) (c == ' ')
+#define ISDIGIT(c) (c >= '0' && c <= '9')
 #define ISPAREN(c) (c == '(' || c == ')')
 #define ISOP_SUM(c) (c == '+' || c == '-')
 #define ISOP_FACTOR(c) (c == '*' || c == '/' || c == '%')
@@ -28,6 +30,7 @@ void						*ft_memset(void *mem, int set, int size);
 int							ft_nbrlen(int value);
 int							eval_expr(char *str);
 void						ft_ptrswap(void **aa, void **bb);
+int							ft_atoi(char *str);
 
 t_countable_nbr				*new_countable_nbr(int base, int sign, int size);
 void						free_countable_nbr(t_countable_nbr **nbr);

@@ -25,6 +25,9 @@ int							main(int ac, char **av)
 	t_countable_nbr			*res;
 	int						ii;
 
+	if (4 == ac && 1 == grammar(av[1], av[2], atoi(av[3])))
+		printf("Good\n");
+	return (0);
 	if (3 != ac)
 		return (0);
 	lhs = new_countable_nbr(10, 1, 2);

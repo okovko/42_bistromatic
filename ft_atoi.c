@@ -6,11 +6,11 @@
 /*   By: olkovale <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/04/07 12:06:06 by olkovale          #+#    #+#             */
-/*   Updated: 2017/04/22 21:50:36 by olkovale         ###   ########.fr       */
+/*   Updated: 2018/01/15 09:24:15 by olkovale         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_atoi.h"
+#include "bistromatic.h"
 
 int		ft_atoi(char *str)
 {

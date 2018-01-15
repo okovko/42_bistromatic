@@ -16,16 +16,18 @@
 int							check_num(char *digits, char *input, int pos, int size)
 {
 	int						any;
+	int						ii;
 
 	if (pos >= size)
 		return (0);
 	any = 0;
-	while ('\0' != *digits)
+	ii = 0;
+	while ('\0' != digits[ii])
 	{
-		any = input[pos] == *digits;
+		any = input[pos] == digits[ii];
 		if (1 == any)
 			break;
-		digits++;
+		ii++;
 	}
 	if (1 == any)
 	{

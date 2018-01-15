@@ -13,12 +13,14 @@
 #include "bistromatic.h"
 #include "ft_countable_nbr.h"
 
-int							check_binary(char *digits, char *input, int pos, int size)
+int					check_binary(char *digits, char *input, int pos, int size)
 {
 	if (pos < size && ISOP(input[pos]))
 	{
 		pos++;
 		if (check_num(digits, input, pos, size))
+			return (1);
+		if (check_unary(digits, input, pos, size))
 			return (1);
 		if (check_open(digits, input, pos, size))
 			return (1);
