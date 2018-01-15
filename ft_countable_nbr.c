@@ -144,37 +144,38 @@ t_countable_nbr				*countable_nbr_dec(t_countable_nbr *nbr)
 	return (nbr);
 }
 
-int							countable_nbr_lt(t_countable_nbr *lhs, t_countable_nbr *rhs)
+int							countable_nbr_lte(t_countable_nbr *lhs, t_countable_nbr *rhs)
 {
-	int		ii;
+	int						ii;
+	int						left;
+	int						right;
 
 	if (1 == lhs->sign && -1 == rhs->sign)
 		return (0);
 	if (-1 == lhs->sign && 1 == rhs->sign)
 		return (1);
-	if (1 == lhs->sign && 1 == rhs->sign
-		&& lhs->size != rhs->sign)
-		return (lhs->size < rhs->size);
-	if (-1 == lhs->sign && -1 == rhs->sign
-		&& lhs->size != rhs->sign)
-		return (lhs->size > rhs->size);
-	ii = lhs->size - 1;
+	ii = lhs->size > rhs->size ? lhs->size - 1 : rhs->size - 1;
 	while (ii >= 0)
 	{
-		if (1 == lhs->sign && 1 == rhs->sign
-			&& lhs->digits[ii] < rhs->digits[ii])
-			return (1);
-		if (-1 == lhs->sign && -1 == rhs->sign
-			&& lhs->digits[ii] > rhs->digits[ii])
-			return (0);
+		left = ii < lhs->size ? lhs->digits[ii] : 0;
+		right = ii < rhs->size ? rhs->digits[ii] : 0;
+		if (left == right)
+		{
+			ii--;
+			continue ;
+		}
+		if (1 == lhs->sign && 1 == rhs->sign)
+			return (left < right);
+		if (-1 == lhs->sign && -1 == rhs->sign)
+			return (left > right);
 		ii--;
 	}
 	return (1);
 }
 
-int							countable_nbr_gt(t_countable_nbr *lhs, t_countable_nbr *rhs)
+int							countable_nbr_gte(t_countable_nbr *lhs, t_countable_nbr *rhs)
 {
-	return (0 == countable_nbr_lt(lhs, rhs));
+	return (0 == countable_nbr_lte(lhs, rhs));
 }
 
 t_countable_nbr				*countable_nbr_add
@@ -252,7 +253,7 @@ t_countable_nbr				*countable_nbr_div
 
 	nbr = new_countable_nbr(lhs->base, 1, lhs->size);
 	product = countable_nbr_mul(nbr, rhs);
-	while (1 == countable_nbr_lt(product, lhs))
+	while (1 == countable_nbr_lte(product, lhs))
 	{
 		countable_nbr_inc(nbr);
 		free_countable_nbr(&product);
@@ -270,21 +271,21 @@ int							main(int ac, char **av)
 
 	if (3 != ac)
 		return (0);
-	lhs = new_countable_nbr(10, 1, 1);
+	lhs = new_countable_nbr(10, 1, 2);
 	ii = 0;
 	while (ii < lhs->size)
 	{
-		lhs->digits[0] = av[1][ii] - '0';
+		lhs->digits[lhs->size - ii - 1] = av[1][ii] - '0';
 		ii++;
 	}
 	rhs = new_countable_nbr(10, 1, 1);
 	ii = 0;
 	while (ii < rhs->size)
 	{
-		rhs->digits[0] = av[2][ii] - '0';
+		rhs->digits[rhs->size - ii - 1] = av[2][ii] - '0';
 		ii++;
 	}
-	res = countable_nbr_add(lhs, rhs);
+	res = countable_nbr_div(lhs, rhs);
 	printf("result: ");
 	ii = res->size;
 	while (ii >= 0)
